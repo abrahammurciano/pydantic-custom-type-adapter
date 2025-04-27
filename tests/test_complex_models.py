@@ -4,7 +4,7 @@ from typing import Annotated, Any
 
 from pydantic import BaseModel
 
-from pydantic_custom_types import PydanticAdapter
+from pydantic_custom_type_adapter import PydanticAdapter
 from tests.custom_types import Email, Point, Timestamp
 
 EmailType = Annotated[Email, PydanticAdapter(type=Email, parse=Email.parse, dump=str)]

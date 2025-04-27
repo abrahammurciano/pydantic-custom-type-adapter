@@ -29,7 +29,7 @@ Tests will be triggered in GitHub by opening a pull request to main.
 Documentaion is generated using pdoc3. To generate documentation, run:
 
 ```sh
-$ pdoc pydantic_custom_types --html -o docs/ -f -c show_source_code=False
+$ pdoc pydantic_custom_type_adapter --html -o docs/ -f -c show_source_code=False
 ```
 
 If you don't, it will be generated automatically on merge to main.

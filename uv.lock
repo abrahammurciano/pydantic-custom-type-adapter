@@ -231,7 +231,7 @@ wheels = [
 ]
 
 [[package]]
-name = "pydantic-custom-types"
+name = "pydantic-custom-type-adapter"
 version = "0+dev"
 source = { editable = "." }
 dependencies = [
