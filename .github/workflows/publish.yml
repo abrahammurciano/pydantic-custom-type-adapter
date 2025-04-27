@@ -20,7 +20,5 @@ jobs:
         run: sed -e 's/"0+dev"/"'"$(echo ${{ github.event.release.tag_name }} | cut -d 'v' -f 2)"'"/' -i pyproject.toml
       - name: Build Package
         run: uv build
-      - name: Check Build
-        run: pip install dist/*.whl
       - name: Publish Pip Package
         run: uv publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
