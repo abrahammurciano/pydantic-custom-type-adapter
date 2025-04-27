@@ -3,7 +3,7 @@ from typing import Annotated
 import pytest
 from pydantic import BaseModel, ValidationError
 
-from pydantic_custom_types import PydanticAdapter
+from pydantic_custom_type_adapter import PydanticAdapter
 from tests.custom_types import Email
 
 

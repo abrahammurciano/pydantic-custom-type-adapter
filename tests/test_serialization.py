@@ -2,7 +2,7 @@ from typing import Annotated
 
 from pydantic import BaseModel
 
-from pydantic_custom_types import PydanticAdapter
+from pydantic_custom_type_adapter import PydanticAdapter
 from tests.custom_types import Point, Timestamp
 
 # Define annotated types directly in the file
@@ -59,7 +59,9 @@ def test_dict_serialization():
         position: PointDictType
 
     # Dict representation
-    location = LocationDict.model_validate({"name": "Home", "position": {"x": 10.5, "y": 20.3}})
+    location = LocationDict.model_validate(
+        {"name": "Home", "position": {"x": 10.5, "y": 20.3}}
+    )
     assert isinstance(location.position, Point)
     assert location.position.x == 10.5
     assert location.position.y == 20.3

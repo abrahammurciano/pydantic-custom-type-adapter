@@ -6,20 +6,20 @@ Use any type with pydantic, without any of the hassle
 
 You can install this package with pip.
 ```sh
-$ pip install pydantic-custom-types
+$ pip install pydantic-custom-type-adapter
 ```
 
 ## Links
 
-[![Documentation](https://img.shields.io/badge/Documentation-C61C3E?style=for-the-badge&logo=Read+the+Docs&logoColor=%23FFFFFF)](https://abrahammurciano.github.io/pydantic-custom-types)
+[![Documentation](https://img.shields.io/badge/Documentation-C61C3E?style=for-the-badge&logo=Read+the+Docs&logoColor=%23FFFFFF)](https://abrahammurciano.github.io/pydantic-custom-type-adapter)
 
-[![Source Code - GitHub](https://img.shields.io/badge/Source_Code-GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=%23FFFFFF)](https://github.com/abrahammurciano/pydantic-custom-types.git)
+[![Source Code - GitHub](https://img.shields.io/badge/Source_Code-GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=%23FFFFFF)](https://github.com/abrahammurciano/pydantic-custom-type-adapter.git)
 
-[![PyPI - pydantic-custom-types](https://img.shields.io/badge/PyPI-pydantic_custom_types-006DAD?style=for-the-badge&logo=PyPI&logoColor=%23FFD242)](https://pypi.org/project/pydantic-custom-types/)
+[![PyPI - pydantic-custom-type-adapter](https://img.shields.io/badge/PyPI-pydantic_custom_type_adapter-006DAD?style=for-the-badge&logo=PyPI&logoColor=%23FFD242)](https://pypi.org/project/pydantic-custom-type-adapter/)
 
 ## Usage
 
-The `pydantic-custom-types` package provides a simple way to integrate custom types with Pydantic models through the `PydanticAdapter` class. This adapter handles serialization and deserialization of your custom types, making them fully compatible with Pydantic's validation system.
+The `pydantic-custom-type-adapter` package provides a simple way to integrate custom types with Pydantic models through the `PydanticAdapter` class. This adapter handles serialization and deserialization of your custom types, making them fully compatible with Pydantic's validation system.
 
 By using PydanticAdapter, you can seamlessly integrate any custom type with Pydantic's validation system, without having to modify the original type or create complex serialization logic.
 
@@ -32,7 +32,7 @@ To use a custom type with Pydantic:
 ```python
 from typing import Annotated
 from pydantic import BaseModel
-from pydantic_custom_types import PydanticAdapter
+from pydantic_custom_type_adapter import PydanticAdapter
 ```
 
 2. Create an adapter for your custom type:
@@ -64,7 +64,7 @@ Here's a complete example with a custom Email type:
 ```python
 from typing import Annotated
 from pydantic import BaseModel
-from pydantic_custom_types import PydanticAdapter
+from pydantic_custom_type_adapter import PydanticAdapter
 
 class Email:
     def __init__(self, address: str):
@@ -107,7 +107,7 @@ from datetime import datetime, timezone
 from typing import Annotated, Any, Self
 
 from pydantic import BaseModel
-from pydantic_custom_types import PydanticAdapter
+from pydantic_custom_type_adapter import PydanticAdapter
 
 class Timestamp:
     def __init__(self, dt: datetime):
@@ -155,7 +155,7 @@ You can create multiple annotations for the same type to handle different serial
 ```python
 from typing import Annotated, Self
 from pydantic import BaseModel
-from pydantic_custom_types import PydanticAdapter
+from pydantic_custom_type_adapter import PydanticAdapter
 
 class Point:
     def __init__(self, x: float, y: float):

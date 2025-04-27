@@ -22,7 +22,7 @@ class PydanticAdapter[T, J]:
         from typing import Annotated
         from pydantic import BaseModel
         from some_module import CustomType
-        from pydantic_custom_types import PydanticAdapter
+        from pydantic_custom_type_adapter import PydanticAdapter
 
         CustomTypeAnnotation = Annotated[CustomType, PydanticAdapter(CustomType, parse=CustomType.parse, dump=str)]
 

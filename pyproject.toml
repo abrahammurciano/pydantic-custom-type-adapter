@@ -1,5 +1,5 @@
 [project]
-name = "pydantic-custom-types"
+name = "pydantic-custom-type-adapter"
 # Version is overwritten at build time by CI based on git tag
 version = "0+dev"
 description = "Use any type with pydantic, without any of the hassle"
@@ -11,8 +11,8 @@ keywords = []
 dependencies = ["pydantic>=2.11.3"]
 
 [project.urls]
-repository = "https://github.com/abrahammurciano/pydantic-custom-types"
-documentation = "https://abrahammurciano.github.io/pydantic-custom-types/pydantic-custom-types"
+repository = "https://github.com/abrahammurciano/pydantic-custom-type-adapter"
+documentation = "https://abrahammurciano.github.io/pydantic-custom-type-adapter/pydantic-custom-type-adapter"
 
 [dependency-groups]
 dev = ["black", "pytest", "pdoc3", "mypy"]

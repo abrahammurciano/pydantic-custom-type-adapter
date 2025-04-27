@@ -22,7 +22,7 @@ jobs:
 
       # Generate documentation
       - name: Generate Documentation
-        run: uv run pdoc3 pydantic_custom_types -f --html -o docs --config show_source_code=False
+        run: uv run pdoc3 pydantic_custom_type_adapter -f --html -o docs --config show_source_code=False
       - name: Commit Documentation
         run: |
           git add docs && git commit -am 'Update documentation' || true
