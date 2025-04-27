@@ -1,0 +1,24 @@
+[project]
+name = "pydantic-custom-types"
+# Version is overwritten at build time by CI based on git tag
+version = "0+dev"
+description = "Use any type with pydantic, without any of the hassle"
+authors = [{ name = "Abraham Murciano", email = "<abrahammurciano@gmail.com>" }]
+license = "GPL-3.0"
+readme = "README.md"
+requires-python = ">=3.13"
+keywords = []
+
+[project.urls]
+repository = "https://github.com/abrahammurciano/pydantic-custom-types"
+documentation = "https://abrahammurciano.github.io/pydantic-custom-types/pydantic-custom-types"
+
+[dependency-groups]
+dev = ["black", "pytest", "pdoc3", "mypy"]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.mypy]
+exclude = [".venv", "venv"]

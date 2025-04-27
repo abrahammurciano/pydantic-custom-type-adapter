@@ -1,0 +1,48 @@
+name: Docs & Format
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docs_and_format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+      - name: Install Python
+        run: uv python install
+      - name: Git Config
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@users.noreply.github.com'
+
+      # Generate documentation
+      - name: Generate Documentation
+        run: uv run pdoc3 pydantic_custom_types -f --html -o docs --config show_source_code=False
+      - name: Commit Documentation
+        run: |
+          git add docs && git commit -am 'Update documentation' || true
+
+      # Format the code
+      - name: Format Code
+        run: uv run black .
+      - name: Commit Formatted Code
+        run: |
+          git commit -am 'Format code' || true
+
+      # Push changes if necessary
+      - name: Check for modified files
+        id: git-check
+        run: echo "commits=$(git log @{upstream}.. --oneline | wc -l)" >> $GITHUB_OUTPUT
+      - name: Push changes
+        if: steps.git-check.outputs.commits != '0'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GH_TOKEN }}
+        run: |
+          git push
+          gh pr close ${{ github.event.number }}
+          gh pr reopen ${{ github.event.number }}

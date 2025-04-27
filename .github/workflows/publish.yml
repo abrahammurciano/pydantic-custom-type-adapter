@@ -1,0 +1,26 @@
+name: Publish
+
+on:
+  release:
+    types:
+      - created
+
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+      - name: Install Python
+        run: uv python install
+      - name: Set Version
+        run: sed -e 's/"0+dev"/"'"$(echo ${{ github.event.release.tag_name }} | cut -d 'v' -f 2)"'"/' -i pyproject.toml
+      - name: Build Package
+        run: uv build
+      - name: Check Build
+        run: pip install dist/*.whl
+      - name: Publish Pip Package
+        run: uv publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
