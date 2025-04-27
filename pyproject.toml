@@ -3,11 +3,12 @@ name = "pydantic-custom-types"
 # Version is overwritten at build time by CI based on git tag
 version = "0+dev"
 description = "Use any type with pydantic, without any of the hassle"
-authors = [{ name = "Abraham Murciano", email = "<abrahammurciano@gmail.com>" }]
+authors = [{ name = "Abraham Murciano", email = "abrahammurciano@gmail.com" }]
 license = "GPL-3.0"
 readme = "README.md"
 requires-python = ">=3.13"
 keywords = []
+dependencies = ["pydantic>=2.11.3"]
 
 [project.urls]
 repository = "https://github.com/abrahammurciano/pydantic-custom-types"
