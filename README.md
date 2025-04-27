@@ -1,137 +1,5 @@
-# Python Package Template
+# Pydantic Custom Types
 
-This repository contains the basic structure for a python package as well as some useful GitHub actions for maintaining the package.
-
-In order to use this template you must perform the following steps. In each step I will explain how you can do it manually and I will also provide commands (sorry windows users, sucks to suck) to automate the process where possible.
-
-## 1. Set command variables
-
-In the following instructions, commands will make reference to several variables. You can set these variables now so you can run all subsequent commands without having to edit them. (Replace `...` with actual values.)
-
-```sh
-PACKAGE="..." # The name of your package. Use kebab-case.
-MODULE=$(echo $PACKAGE | tr - _) # The name of your module. Should be the package name in snake_case.
-PACKAGE_DESCRIPTION="..." # A short description of your package
-YOUR_NAME="..." # Your name. Use spaces and start each word with an uppercase letter
-YOUR_EMAIL="..." # Your email address
-GITHUB_USERNAME="..." # Your GitHub username
-MIN_PYTHON_VERSION="..." # The minimum version of Python required to use this package
-```
-
-If you won't be using the commands below, just make a note of the values you would give to each variable for when they're needed.
-
-## 2. Clone the template
-
-Download the code and place it in a folder, then enter the folder. From now on all commands will be relative to this folder.
-
-```sh
-git clone https://github.com/abrahammurciano/python-package-template.git $PACKAGE
-cd $PACKAGE
-rm -rf .git
-```
-
-## 3. Replace placeholder text
-
-There are several placeholders that you must replace with values from step 1. These match this regular expression: `<<[A-Z_]+>>`. You can use your IDE to find all such placeholders and replace them, or you can use the following commands to do the same.
-
-```sh
-find ./ -type f -exec sed -i -e "s/pydantic-custom-types/$PACKAGE/g" {} \;
-find ./ -type f -exec sed -i -e "s/pydantic_custom_types/$MODULE/g" {} \;
-find ./ -type f -exec sed -i -e "s/Use any type with pydantic, without any of the hassle/$PACKAGE_DESCRIPTION/g" {} \;
-find ./ -type f -exec sed -i -e "s/Abraham Murciano/$YOUR_NAME/g" {} \;
-find ./ -type f -exec sed -i -e "s/abrahammurciano@gmail.com/$YOUR_EMAIL/g" {} \;
-find ./ -type f -exec sed -i -e "s/abrahammurciano/$GITHUB_USERNAME/g" {} \;
-find ./ -type f -exec sed -i -e "s/3.13/$MIN_PYTHON_VERSION/g" {} \;
-```
-
-Also don't forget to replace any occurences of a placeholder in folder and file names.
-
-```sh
-mv '<<MODULE_NAME>>' $MODULE
-```
-
-## 4. Create a GitHub repository
-
-- Click [here](https://github.com/new) to create a new GitHub repository.
-- Name it `$PACKAGE`.
-- Enter the value of `$PACKAGE_DESCRIPTION` as the description.
-- Don't initialize the repository with a readme, a .gitignore, a license, or any other files.
-
-## 5. Store the necessary credentials
-
-### Create the necessary accounts
-- Create a [PyPI](https://pypi.org/account/register/) account if you don't have one.
-
-### Create a GitHub personal access token
-- Go to `Settings` > `Developer settings` > `Personal access tokens` > `Generate new token`.
-- Name it `GitHub Actions for $PACKAGE`.
-- Set it to not expire.
-- Select `repo` as the `Scopes` field.
-- Click `Generate token`.
-- Copy it for the next step.
-
-### Create a PyPI token
-You can generate one [here](https://pypi.org/manage/account/). Name it `$PACKAGE`.
-
-### Create the necessary secrets
-- Go to `your repository` > `Settings` > `Secrets` > `Actions`.
-- Create these new repository secrets:
-	- `PERSONAL_GH_TOKEN`
-	- `PYPI_TOKEN`
-
-### Grant write access to GitHub Actions
-- Go to `your repository` > `Settings` > `Actions` > `General`.
-- Under `Workflow permissions` select `Read and write permissions`.
-- Click `Save`.
-
-## 6. Push your code to GitHub
-
-You can push your code with the following commands.
-
-```sh
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin git@github.com:$GITHUB_USERNAME/$PACKAGE.git
-git push -u origin main
-```
-
-## 7. Enable GitHub pages
-
-- Go to `your repository` > `Settings` > `Pages`.
-- Under `source` select the branch `main`.
-- Then for the folder, instead of `/ (root)` choose `/docs`.
-- Click save.
-
-## 8. Enforce CI on pull requests to main
-
-First you must trigger the flow once so GitHub is aware of its existance.
-
-- Go to `your repository` > `Actions` > `Tests` > `Run Workflow` > `Run Workflow`
-- Go to `your repository` > `Actions` > `Docs & Format` > `Run Workflow` > `Run Workflow`
-
-Now you can require the test flow to run.
-
-- Go to `your repository` > `Settings` > `Branches` > `Add branch protection rule`.
-- For the `Branch name pattern` type `main`.
-- Check `Require status checks to pass before merging`.
-- Type `test`, make sure it comes up in autocomplete, and click it.
-- Type `docs_and_format`, make sure it comes up in autocomplete, and click it.
-- Then click `Save changes`.
-
-## 9. Some notes
-
-- If your minimum python version is less than 3.8, replace `importlib.metadata` with `importlib_metadata` in your `__init__.py` and add it as a dependency.
-```sh
-poetry add importlib_metadata
-```
-
-## 10. Delete these instructions
-
-Remove the text up to here from this file.
-
-# pydantic-custom-types
 Use any type with pydantic, without any of the hassle
 
 ## Installation
@@ -150,3 +18,189 @@ $ pip install pydantic-custom-types
 [![PyPI - pydantic-custom-types](https://img.shields.io/badge/PyPI-pydantic_custom_types-006DAD?style=for-the-badge&logo=PyPI&logoColor=%23FFD242)](https://pypi.org/project/pydantic-custom-types/)
 
 ## Usage
+
+The `pydantic-custom-types` package provides a simple way to integrate custom types with Pydantic models through the `PydanticAdapter` class. This adapter handles serialization and deserialization of your custom types, making them fully compatible with Pydantic's validation system.
+
+By using PydanticAdapter, you can seamlessly integrate any custom type with Pydantic's validation system, without having to modify the original type or create complex serialization logic.
+
+### Basic usage
+
+To use a custom type with Pydantic:
+
+1. Import the necessary components:
+
+```python
+from typing import Annotated
+from pydantic import BaseModel
+from pydantic_custom_types import PydanticAdapter
+```
+
+2. Create an adapter for your custom type:
+
+```python
+from my_module import MyCustomType
+
+# Define how to parse from JSON and dump to JSON
+MyCustomTypeAnnotation = Annotated[
+    MyCustomType,
+    PydanticAdapter(
+        type=MyCustomType,
+        parse=MyCustomType.from_string,  # Convert string to MyCustomType
+        dump=str  # Convert MyCustomType to string
+    )
+]
+```
+3. Use the custom type in your Pydantic model:
+
+```python
+class MyModel(BaseModel):
+	custom_field: MyCustomTypeAnnotation
+```
+
+### Complete example
+
+Here's a complete example with a custom Email type:
+
+```python
+from typing import Annotated
+from pydantic import BaseModel
+from pydantic_custom_types import PydanticAdapter
+
+class Email:
+    def __init__(self, address: str):
+        if "@" not in address:
+            raise ValueError("Invalid email address")
+        self.address = address
+
+    def __str__(self) -> str:
+        return self.address
+
+# Create the adapter
+EmailType = Annotated[Email, PydanticAdapter(type=Email, parse=Email, dump=str)]
+
+# Use in a model
+class User(BaseModel):
+    name: str
+    email: EmailType
+
+# Create a model instance
+user = User(name="John Doe", email="john@example.com")
+# or with an already constructed Email instance
+user = User(name="Jane Doe", email=Email("jane@example.com"))
+
+# Serialize to JSON
+json_data = user.model_dump_json()
+print(json_data)  # {"name": "John Doe", "email": "john@example.com"}
+
+# Deserialize from JSON
+user_dict = {"name": "Alice", "email": "alice@example.com"}
+user = User.model_validate(user_dict)
+print(user.email.address)  # alice@example.com
+```
+
+### Working with complex types
+
+The `PydanticAdapter` also works with complex types that need custom serialization to JSON:
+
+```python
+from datetime import datetime, timezone
+from typing import Annotated, Any, Self
+
+from pydantic import BaseModel
+from pydantic_custom_types import PydanticAdapter
+
+class Timestamp:
+    def __init__(self, dt: datetime):
+        self.datetime = dt
+
+    @classmethod
+    def parse(cls, data: dict[str, Any]) -> Self:
+        return cls(datetime.fromisoformat(data["iso"]))
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "iso": self.datetime.isoformat(),
+            "unix": int(self.datetime.timestamp())
+        }
+
+# Create the adapter with dict serialization
+TimestampType = Annotated[
+    Timestamp,
+    PydanticAdapter(
+        type=Timestamp,
+        parse=Timestamp.parse,
+        dump=lambda ts: ts.to_dict()
+    )
+]
+
+class Event(BaseModel):
+    name: str
+    timestamp: TimestampType
+
+# Create and use the model
+event = Event(
+    name="Server Started",
+    timestamp=Timestamp(datetime.now(timezone.utc))
+)
+
+# Serialize to JSON - timestamp will be a dictionary with iso and unix fields
+json_data = event.model_dump_json()
+print(json_data)
+```
+
+### Multiple adapters for different contexts
+
+You can create multiple annotations for the same type to handle different serialization formats:
+
+```python
+from typing import Annotated, Self
+from pydantic import BaseModel
+from pydantic_custom_types import PydanticAdapter
+
+class Point:
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+
+    @classmethod
+    def from_string(cls, value: str) -> Self:
+        x, y = map(float, value.split(","))
+        return cls(x, y)
+
+    @classmethod
+    def from_dict(cls, data: dict) -> Self:
+        return cls(data["x"], data["y"])
+
+    def to_string(self) -> str:
+        return f"{self.x},{self.y}"
+
+    def to_dict(self) -> dict:
+        return {"x": self.x, "y": self.y}
+
+# String representation adapter
+PointString = Annotated[
+    Point,
+    PydanticAdapter(
+        type=Point,
+        parse=Point.from_string,
+        dump=lambda p: p.to_string()
+    )
+]
+
+# Dictionary representation adapter
+PointDict = Annotated[
+    Point,
+    PydanticAdapter(
+        type=Point,
+        parse=Point.from_dict,
+        dump=lambda p: p.to_dict()
+    )
+]
+
+# Use different representations in different models
+class LocationString(BaseModel):
+    position: PointString
+
+class LocationDict(BaseModel):
+    position: PointDict
+```
