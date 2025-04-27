@@ -59,7 +59,9 @@ def test_dict_serialization():
         position: PointDictType
 
     # Dict representation
-    location = LocationDict.model_validate({"name": "Home", "position": {"x": 10.5, "y": 20.3}})
+    location = LocationDict.model_validate(
+        {"name": "Home", "position": {"x": 10.5, "y": 20.3}}
+    )
     assert isinstance(location.position, Point)
     assert location.position.x == 10.5
     assert location.position.y == 20.3

@@ -53,21 +53,17 @@ def test_integer_adapter() -> None:
         id: UserIdType
 
     # Create from int
-    user = User.model_validate({
-        "name": "John Doe",
-        "email": "john@example.com",
-        "id": 1
-    })
+    user = User.model_validate(
+        {"name": "John Doe", "email": "john@example.com", "id": 1}
+    )
     assert isinstance(user.id, UserId)
     assert user.id.id == 1
 
     # Create from instance
     user_id = UserId(2)
-    user = User.model_validate({
-        "name": "Jane Doe",
-        "email": "jane@example.com",
-        "id": user_id
-    })
+    user = User.model_validate(
+        {"name": "Jane Doe", "email": "jane@example.com", "id": user_id}
+    )
     assert user.id == user_id
 
     # Serialize to dict
@@ -138,7 +134,9 @@ def test_validation_errors() -> None:
 
     # Invalid point dict format
     with pytest.raises(ValidationError):
-        LocationDict.model_validate({"name": "Test", "position": {"x": 10}})  # missing y
+        LocationDict.model_validate(
+            {"name": "Test", "position": {"x": 10}}
+        )  # missing y
 
 
 def test_instance_passthrough() -> None:
