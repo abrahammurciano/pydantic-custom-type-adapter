@@ -4,7 +4,7 @@ name = "pydantic-custom-type-adapter"
 version = "0+dev"
 description = "Use any type with pydantic, without any of the hassle"
 authors = [{ name = "Abraham Murciano", email = "abrahammurciano@gmail.com" }]
-license = "GPL-3.0"
+license = "MIT"
 readme = "README.md"
 requires-python = ">=3.13"
 keywords = []
